@@ -13,8 +13,6 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-
-
 with billing AS (
     SELECT
         VBRK.MANDT AS Client_MANDT,
@@ -119,11 +117,11 @@ with billing AS (
         ON
         VBRK.VBELN = VBRP.VBELN
         AND VBRK.MANDT = VBRP.MANDT
-    INNER JOIN `sap_order_to_cash`.`default`.`agg_prcd_elements` AS AGG_PRCD_ELEMENTS
+    INNER JOIN `dbt_test`.`default`.`agg_prcd_elements` AS AGG_PRCD_ELEMENTS
         ON
         CAST(AGG_PRCD_ELEMENTS.Knumv AS STRING) = vbrk.knumv
         AND CAST(AGG_PRCD_ELEMENTS.Kposn AS STRING) = vbrp.posnr
-    LEFT JOIN `sap_order_to_cash`.`default`.`currency_decimal` AS currency_decimal
+    LEFT JOIN `dbt_test`.`default`.`currency_decimal` AS currency_decimal
         ON vbrk.WAERK = currency_decimal.CURRKEY
     LEFT JOIN calendar_date_dim AS CalendarDateDimension_FKDAT
         ON CalendarDateDimension_FKDAT.Date = VBRK.FKDAT

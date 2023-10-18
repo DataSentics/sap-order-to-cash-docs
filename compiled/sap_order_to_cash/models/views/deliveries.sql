@@ -13,8 +13,6 @@
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
 
-
-
 with deliveries AS (
     SELECT
         LIKP.MANDT AS Client_MANDT,
@@ -514,7 +512,7 @@ with deliveries AS (
         ON
         LIKP.VBELN = LIPS.VBELN
         AND LIKP.MANDT = LIPS.MANDT
-    LEFT JOIN `sap_order_to_cash`.`default`.`currency_decimal` AS currency_decimal
+    LEFT JOIN `dbt_test`.`default`.`currency_decimal` AS currency_decimal
         ON LIKP.WAERK = currency_decimal.CURRKEY
     LEFT JOIN calendar_date_dim AS CalendarDateDimension_LFDAT
         ON CalendarDateDimension_LFDAT.Date = LIKP.LFDAT

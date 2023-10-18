@@ -187,59 +187,59 @@ with order_to_cash AS (
         'DeliveredOnTime',
         'NotDeliveredOnTime') AS OnTimeDelivery
 
-    FROM `sap_order_to_cash`.`default`.`salesorders`
-    LEFT JOIN `sap_order_to_cash`.`default`.`deliveries` AS Deliveries
+    FROM `dbt_test`.`default`.`salesorders`
+    LEFT JOIN `dbt_test`.`default`.`deliveries` AS Deliveries
         ON
         SalesOrders.SalesDocument_VBELN = Deliveries.SalesOrderNumber_VGBEL
         AND SalesOrders.Item_POSNR = Deliveries.SalesOrderItem_VGPOS
         AND SalesOrders.Client_MANDT = Deliveries.Client_MANDT
-    LEFT JOIN `sap_order_to_cash`.`default`.`billing` AS Billing
+    LEFT JOIN `dbt_test`.`default`.`billing` AS Billing
         ON
         SalesOrders.SalesDocument_VBELN = Billing.SalesDocument_AUBEL
         AND SalesOrders.Item_POSNR = Billing.SalesDocumentItem_AUPOS
         AND SalesOrders.Client_MANDT = Billing.Client_MANDT
-    LEFT JOIN `sap_order_to_cash`.`default`.`customersmd` AS CustomersMD
+    LEFT JOIN `dbt_test`.`default`.`customersmd` AS CustomersMD
         ON
         SalesOrders.SoldtoParty_KUNNR = CustomersMD.CustomerNumber_KUNNR
         AND SalesOrders.Client_MANDT = CustomersMD.Client_MANDT
-    LEFT JOIN `sap_order_to_cash`.`default`.`materialsmd` AS MaterialsMD
+    LEFT JOIN `dbt_test`.`default`.`materialsmd` AS MaterialsMD
         ON
         SalesOrders.MaterialNumber_MATNR = MaterialsMD.MaterialNumber_MATNR
         AND SalesOrders.Client_MANDT = MaterialsMD.Client_MANDT
-    LEFT JOIN `sap_order_to_cash`.`default`.`salesorganizationsmd` AS SalesOrganizationsMD
+    LEFT JOIN `dbt_test`.`default`.`salesorganizationsmd` AS SalesOrganizationsMD
         ON
         SalesOrders.Client_MANDT = SalesOrganizationsMD.Client_MANDT
         AND SalesOrders.SalesOrganization_VKORG = SalesOrganizationsMD.SalesOrg_VKORG
         AND SalesOrganizationsMD.Language_SPRAS = MaterialsMD.Language_SPRAS
-    LEFT JOIN `sap_order_to_cash`.`default`.`distributionchannelmd` AS DistributionChannelMD
+    LEFT JOIN `dbt_test`.`default`.`distributionchannelmd` AS DistributionChannelMD
         ON
         SalesOrders.Client_MANDT = DistributionChannelMD.Client_MANDT
         AND SalesOrders.DistributionChannel_VTWEG = DistributionChannelMD.DistributionChannel_VTWEG
         AND DistributionChannelMD.Language_SPRAS = MaterialsMD.Language_SPRAS
-    LEFT JOIN `sap_order_to_cash`.`default`.`countriesmd` AS CountriesMD
+    LEFT JOIN `dbt_test`.`default`.`countriesmd` AS CountriesMD
         ON
         SalesOrders.Client_MANDT = CountriesMD.Client_MANDT
         AND CustomersMD.CountryKey_LAND1 = CountriesMD.CountryKey_LAND1
         AND CountriesMD.Language_SPRAS = MaterialsMD.Language_SPRAS
-    LEFT JOIN `sap_order_to_cash`.`default`.`onetouchorder` AS OneTouchOrder
+    LEFT JOIN `dbt_test`.`default`.`onetouchorder` AS OneTouchOrder
         ON
         SalesOrders.Client_MANDT = OneTouchOrder.VBAPClient_MANDT
         AND SalesOrders.SalesDocument_VBELN = OneTouchOrder.VBAPSalesDocument_VBELN
         AND SalesOrders.Item_POSNR = OneTouchOrder.VBAPSalesDocument_Item_POSNR
-    LEFT JOIN `sap_order_to_cash`.`default`.`divisionsmd` AS DivisionsMD
+    LEFT JOIN `dbt_test`.`default`.`divisionsmd` AS DivisionsMD
         ON MaterialsMD.Client_MANDT = DivisionsMD.Client_MANDT
         AND MaterialsMD.Division_SPART = DivisionsMD.Division_SPART
         AND DivisionsMD.LanguageKey_SPRAS = MaterialsMD.Language_SPRAS
-    LEFT JOIN `sap_order_to_cash`.`default`.`deliveryblockingreasonsmd` AS TVLST
+    LEFT JOIN `dbt_test`.`default`.`deliveryblockingreasonsmd` AS TVLST
         ON
         Deliveries.Client_MANDT = TVLST.Client_MANDT
         AND Deliveries.DeliveryBlock_DocumentHeader_LIFSK = TVLST.DefaultDeliveryBlock_LIFSP
         AND MaterialsMD.Language_SPRAS = TVLST.LanguageKey_SPRAS
-    LEFT JOIN `sap_order_to_cash`.`default`.`billingblockingreasonsmd` AS TVFST
+    LEFT JOIN `dbt_test`.`default`.`billingblockingreasonsmd` AS TVFST
         ON
         Deliveries.Client_MANDT = TVFST.Client_MANDT
         AND Deliveries.BillingBlockInSdDocument_FAKSK = TVFST.Block_FAKSP
         AND TVFST.LanguageKey_SPRAS = MaterialsMD.Language_SPRAS
 )
 
-SeLECT * FROM order_to_cash
+SELECT * FROM order_to_cash

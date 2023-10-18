@@ -363,30 +363,30 @@ with sales_orders AS (
         ON
         VBAK.VBELN = VBAP.VBELN
         AND VBAK.MANDT = VBAP.MANDT
-    LEFT OUTER JOIN `sap_order_to_cash`.`default`.`aggvbep`
+    LEFT OUTER JOIN `dbt_test`.`default`.`aggvbep`
         ON
         VBAP.VBELN = AGGVBEP.VBELN
         AND VBAP.POSNR = AGGVBEP.POSNR
         AND VBAP.MANDT = AGGVBEP.MANDT
-    LEFT OUTER JOIN `sap_order_to_cash`.`default`.`aggvbpaitem`
+    LEFT OUTER JOIN `dbt_test`.`default`.`aggvbpaitem`
         ON
         VBAP.MANDT = AGGVBPAITEM.MANDT
         AND VBAP.VBELN = AGGVBPAITEM.VBELN
         AND VBAP.POSNR = AGGVBPAITEM.POSNR
-    LEFT OUTER JOIN `sap_order_to_cash`.`default`.`aggvbpaheader`
+    LEFT OUTER JOIN `dbt_test`.`default`.`aggvbpaheader`
         ON
         VBAP.MANDT = AGGVBPAHEADER.MANDT
         AND VBAP.VBELN = AGGVBPAHEADER.VBELN
         AND (AGGVBPAHEADER.POSNR IS NULL OR AGGVBPAHEADER.POSNR = '000000')
-    LEFT OUTER JOIN `sap_order_to_cash`.`default`.`aggprcd_elements`
+    LEFT OUTER JOIN `dbt_test`.`default`.`aggprcd_elements`
         ON
         CAST(AGGPRCD_ELEMENTS.KNUMV AS STRING) = VBAK.KNUMV
         AND CAST(AGGPRCD_ELEMENTS.KPOSN AS STRING) = VBAP.POSNR
         AND CAST(AGGPRCD_ELEMENTS.CLIENT AS STRING) = VBAP.MANDT
-    LEFT JOIN `sap_order_to_cash`.`default`.`tcurxview` AS tcurx_VBAK
+    LEFT JOIN `dbt_test`.`default`.`tcurxview` AS tcurx_VBAK
         ON
         VBAK.WAERK = tcurx_VBAK.CURRKEY
-    LEFT JOIN `sap_order_to_cash`.`default`.`tcurxview` AS tcurx_VBAP
+    LEFT JOIN `dbt_test`.`default`.`tcurxview` AS tcurx_VBAP
         ON
         VBAP.WAERK = tcurx_VBAP.CURRKEY
 )
